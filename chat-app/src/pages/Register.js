@@ -23,7 +23,7 @@ function Register() {
     const handleSubmit =(event)=>{
         event.preventDefault();
         if(handleValidation()) {
-            // const {email}
+            const { password, confirmPassword, username, email} = values;
         }
     }
 

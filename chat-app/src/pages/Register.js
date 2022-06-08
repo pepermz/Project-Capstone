@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import styled from "styled-components"
 import { Link } from 'react-router-dom';
 import Logo from "../assets/project4.png"
-
+import {ToastContainer, toast} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 
 function Register() {
@@ -12,9 +13,36 @@ function Register() {
         password:"",
         confirmPassword: "",
     })
+    const toastOptions = {
+        position: "bottom-right",
+        autoClose: 5000,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'dark',
+    }
     const handleSubmit =(event)=>{
-    event.preventDefault();
-    alert("form")
+        event.preventDefault();
+        if(handleValidation()) {
+            // const {email}
+        }
+    }
+
+    const handleValidation = () =>{
+        const {password, confirmPassword, username, email} = values;
+        if(password !== confirmPassword) {
+            toast.error("Your Password Doesn't Match", toastOptions)
+            return false;
+        } else if (username.length<3){
+            toast.error("Username Should be Longer Than 3 Characters", toastOptions)
+            return false;
+        } else if (password.length<8){
+            toast.error("Password Should be Longer Than or Equal to 8 Characters", toastOptions)
+            return false;
+        }   else if (email===""){
+            toast.error("Email is Required", toastOptions)
+            return false;
+        }
+        return true;
     }
 
     const handleChange = (event) =>{
@@ -36,6 +64,7 @@ function Register() {
                 <span>already have an account ? <Link to="/login">Login</Link></span>
             </form>
         </FormContainer>
+        <ToastContainer />
     </>
   )
 }

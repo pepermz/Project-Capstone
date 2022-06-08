@@ -1,19 +1,26 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from "styled-components"
 import { Link } from 'react-router-dom';
 import Logo from "../assets/project4.png"
 
-const handleSubmit =(event)=>{
-    event.preventDefault();
-    alert("form")
-}
 
-const handleChange = (event) =>{
-
-}
 
 function Register() {
-  return (
+    const [values, setValues]= useState({
+        username:"",
+        email:"",
+        password:"",
+        confirmPassword: "",
+    })
+    const handleSubmit =(event)=>{
+    event.preventDefault();
+    alert("form")
+    }
+
+    const handleChange = (event) =>{
+        setValues({...values,[event.target.name]:event.target.value})
+    }
+    return (
     <>
         <FormContainer>
             <form onSubmit={(event)=>handleSubmit(event)}>
@@ -87,6 +94,15 @@ const FormContainer = styled.div`
             text-transform: uppercase;
             &:hover {
                 background-color: #4e0eff;
+            }
+        }
+        span {
+            color: white;
+            text-transform: uppercase;
+            a {
+                color: #4e0eff;
+                text-decoration: none;
+                font-weight: bold;
             }
         }
     }

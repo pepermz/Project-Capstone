@@ -12,9 +12,11 @@ export default function SetAvatar() {
 
     const api = "https://api.multiavatar.com/45678945"
     const navigate = useNavigate()
+    //The use states needed 
     const [avatars, setAvatars] =useState([])
     const [isLoading, setIsLoading] =useState(true)
     const [selectedAvatar, setSelectedAvatar] =useState(undefined)
+    //The toast is created as a variable for easier use
     const toastOptions = {
         position: "bottom-right",
         autoClose: 5000,
@@ -22,6 +24,16 @@ export default function SetAvatar() {
         draggable: true,
         theme: 'dark',
     }
+
+    useEffect( ()=> {
+        async function fetchData(){
+        if(!localStorage.getItem('chat-app-user')){
+            navigate('/login')
+        }
+        }
+        fetchData()
+    }, [])
+
     const setProfilePicture = async ()=> {
         if(selectedAvatar===undefined){
             toast.error("Please select an avatar", toastOptions)
@@ -30,6 +42,7 @@ export default function SetAvatar() {
             const {data} = await axios.post(`${setAvatarRoute}/${user._id}`, {
                 image: avatars[selectedAvatar]
             })
+            //Saving Image on local storage
             if(data.isSet) {
                 user.isAvatarImageSet = true;
                 user.avatarImage = data.image;

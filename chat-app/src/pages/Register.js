@@ -22,6 +22,13 @@ function Register() {
         draggable: true,
         theme: 'dark',
     }
+    // This will bring us to the chat page if user is already loged in
+    useEffect(()=>{
+        if(localStorage.getItem('chat-app-user')){
+            navigate('/')
+        }
+    },[])
+
     const handleSubmit = async (event)=>{
         event.preventDefault();
         if(handleValidation()) {

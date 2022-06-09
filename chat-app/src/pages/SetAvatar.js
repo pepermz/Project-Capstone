@@ -23,7 +23,22 @@ export default function SetAvatar() {
         theme: 'dark',
     }
     const setProfilePicture = async ()=> {
-
+        if(selectedAvatar===undefined){
+            toast.error("Please select an avatar", toastOptions)
+        } else {
+            const user = await JSON.parse(localStorage.getItem("chat-app-user"))
+            const {data} = await axios.post(`${setAvatarRoute}/${user._id}`, {
+                image: avatars[selectedAvatar]
+            })
+            if(data.isSet) {
+                user.isAvatarImageSet = true;
+                user.avatarImage = data.image;
+                localStorage.setItem("chat-app-user", JSON.stringify(user))
+                navigate('/')
+            } else {
+                toast.error("Error setting avatar", toastOptions)
+            }
+        }
     }
     useEffect(() => {
         async function fetchData(){
@@ -42,6 +57,11 @@ export default function SetAvatar() {
   }, []);
   return (
     <>
+    {
+        isLoading ? <Container>
+            <img src={loader} alt="loading" className='loader'/>
+        </Container> : (
+    
     <Container>
         <div className='title-container'>
             <h1>
@@ -58,7 +78,9 @@ export default function SetAvatar() {
             })
         }
         </div>
+        <button className='submit-btn' onClick={setProfilePicture}>Set Avatar</button>
     </Container>
+        )}
     <ToastContainer />
     </>
   )
@@ -99,5 +121,20 @@ const Container = styled.div`
         .selected {
             border: 0.4rem solid #4e0eff;
         }
+
+    }
+    .submit-btn {
+        background-color: #997af0;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0.4rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            &:hover {
+                background-color: #4e0eff;
+            }
     }
 `;

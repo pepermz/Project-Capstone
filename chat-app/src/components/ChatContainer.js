@@ -3,12 +3,19 @@ import styled from 'styled-components'
 import ChatInput from './ChatInput';
 import Logout from './Logout';
 import Messages from './Messages';
+import axios from 'axios';
+import { sendMessageRoute } from '../utils/APIRoutes';
 
 
-export default function ChatContainer({currentChat}) {
+export default function ChatContainer({currentChat, currentUser}) {
     //Header  , Chat container , Chat input will be handled here
     const handleSendMsg = async(msg) => {
-        alert(msg)
+        //Magic goes here
+        await axios.post(sendMessageRoute, {
+            from: currentUser._id,
+            to: currentChat._id,
+            message: msg,
+        })
     }
   return (
     <>

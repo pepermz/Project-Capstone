@@ -1,10 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
+import ChatInput from './ChatInput';
 import Logout from './Logout';
+import Messages from './Messages';
 
 
 export default function ChatContainer({currentChat}) {
     //Header  , Chat container , Chat input will be handled here
+    const handleSendMsg = async(msg) => {
+        alert(msg)
+    }
   return (
     <>
     {
@@ -21,8 +26,9 @@ export default function ChatContainer({currentChat}) {
                             </div>
                             <Logout />
                         </div>
+                        <Messages />
                         <div className='chat-messages'></div>
-                        <div className='chat-input'></div>
+                        <ChatInput handleSendMsg ={handleSendMsg}/>
                     </Container>
                 )
             }
